@@ -3,7 +3,7 @@
 $ antechamber -i rec.pdb -fi pdb -o rec.gas.mol2 -fo mol2 -at gaff2 -c gas -rn LIG -nc 0
 $ parmchk2 -i rec.gas.mol2 -f mol2 -o rec.gas.frcmod
 
-# Preparasi senyawa Floconazole menggunakan GAFF2 dan penambahan muatan menggunakan Gastaiger, disini floconazole sebagai ligand, angka 0 tergantung dari net charge pada Chimeara
+# Preparasi senyawa Floconazole menggunakan GAFF2 dan penambahan muatan menggunakan Gastaiger, disini floconazole sebagai ligand, angka 2 tergantung dari net charge pada Chimeara
 $ antechamber -i lig.pdb -fi pdb -o lig.gas.mol2 -fo mol2 -at gaff2 -c gas -rn LIG -nc 2
 $ parmchk2 -i lig.gas.mol2 -f mol2 -o lig.gas.frcmod
 
