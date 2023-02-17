@@ -1,0 +1,37 @@
+#Preparasi Simulasi Dinamika Molekul 2 LIGAND
+# Preparasi senyawa Beta-Cyclodextrin (BCD) menggunakan GAFF2 dan penambahan muatan menggunakan Gastaiger disini BCD dijadikan sebagai reseptor, angka 0 tergantung dari net charge pada Chimeara
+$ antechamber -i rec.pdb -fi pdb -o rec.gas.mol2 -fo mol2 -at gaff2 -c gas -rn LIG -nc 0
+$ parmchk2 -i rec.gas.mol2 -f mol2 -o rec.gas.frcmod
+
+# Preparasi senyawa Floconazole menggunakan GAFF2 dan penambahan muatan menggunakan Gastaiger, disini floconazole sebagai ligand, angka 0 tergantung dari net charge pada Chimeara
+$ antechamber -i lig.pdb -fi pdb -o lig.gas.mol2 -fo mol2 -at gaff2 -c gas -rn LIG -nc 2
+$ parmchk2 -i lig.gas.mol2 -f mol2 -o lig.gas.frcmod
+
+# Melakukan solvasi dan pengambungan BCD-Fluconazole dengan perintah 
+$ tleap -f leap.in
+
+# Lakukan perubahan format amber ke gromacs menggunakan Parmed di google colab, ingat jangan melakukan hidrogen mass repartitioning
+
+# Jalankan perintah berikut satu persatu
+$ gmx grompp -f min.mdp -c gromacs.gro -p gromacs.top -o em.tpr -maxwarn 1
+$ gmx mdrun -v -deffnm em
+$ export GMX_MAXCONSTRWARN=-1
+$ gmx make_ndx -f gromacs.gro -o index.ndx
+> 1|2
+> q
+$ gmx grompp -f nvt.mdp -c em.gro -r em.gro -p gromacs.top -n index.ndx -o nvt.tpr -maxwarn 2
+$ gmx mdrun -v -deffnm nvt &
+$ gmx grompp -f npt.mdp -c nvt.gro -t nvt.cpt -r nvt.gro -p gromacs.top -n index.ndx -o npt.tpr -maxwarn 3
+$ gmx mdrun -v -s npt.tpr -deffnm npt & 
+$ gmx grompp -f md.mdp -c npt.gro -t npt.cpt -p gromacs.top -n index.ndx -o md.tpr -maxwarn 3
+$ gmx mdrun -deffnm md
+
+# file xtc tidak ditemukan, maka digunakan file trr untuk melihat trajektorinya dan Menghitung RMSD
+$ gmx trjconv -s md.tpr -f md.trr -o analisis.xtc -pbc mol -ur compact
+> System (0)
+$ gmx rms -s md.tpr -f analisis.xtc -o rmsd.xvg -tu ns
+> 1
+> 2
+$ xmgrace rmsd.xvg
+
+
