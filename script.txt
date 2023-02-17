@@ -10,7 +10,9 @@ $ parmchk2 -i lig.gas.mol2 -f mol2 -o lig.gas.frcmod
 # Melakukan solvasi dan pengambungan BCD-Fluconazole dengan perintah 
 $ tleap -f leap.in
 
-# Lakukan perubahan format amber ke gromacs menggunakan Parmed di google colab, ingat jangan melakukan hidrogen mass repartitioning
+# Lakukan perubahan format amber ke gromacs menggunakan Parmed di google colab, tekan simbol kotak refresh digoogle colab untuk mendapat file gromacs.gro dan gromacs.top
+1. https://github.com/purnawanpp/gmx_2compound/blob/main/amber_to_gmx.ipynb
+2. Download gromacs.gro dan gromacs.top dan pindahkan difolder kerja
 
 # Jalankan perintah berikut satu persatu
 $ gmx grompp -f min.mdp -c gromacs.gro -p gromacs.top -o em.tpr -maxwarn 1
