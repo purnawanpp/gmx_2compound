@@ -1,0 +1,42 @@
+title           = Fluconazole-Beta-cyclodextrin NPT Simulation
+define          = -DPOSRES
+; Run parameters
+integrator      = md
+nsteps          = 500000 ; 1 ns
+dt              = 0.002
+; Output control
+nstxout         = 10000
+nstvout         = 10000
+nstenergy       = 10000
+nstlog          = 10000
+; Neighbor searching
+nstlist         = 10
+ns-type         = grid
+pbc             = xyz
+rlist           = 1.0
+; Electrostatics
+coulombtype     = PME
+rcoulomb        = 1.0
+pme-order       = 4
+fourierspacing  = 0.16
+; Van der Waals
+vdwtype         = cutoff
+rvdw            = 1.0
+; Temperature coupling
+tcoupl          = nose-hoover
+tc-grps         = System
+tau_t           = 1.0
+ref_t           = 300
+; Pressure coupling
+Pcoupl          = parrinello-rahman
+Pcoupltype      = isotropic
+tau_p           = 2.0
+compressibility = 4.5e-5
+ref_p           = 1.0
+; Generate velocities
+gen-vel         = yes
+gen-temp        = 300
+gen-seed        = -1
+; Constraints
+constraints     = all-bonds
+; Position restraints
